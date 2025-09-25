@@ -14,8 +14,7 @@ class BidSeeder extends Seeder
     public function run(): void
     {
         $bids = [
-[
-                'vendor_name' => 'ABC Suppliers Ltd',
+            [
                 'buyer_name' => 'Premier Farms',
                 'tender_id' => 'TNDR-2025-001',
                 'tender_title' => 'Supply of Maize (100 tons)',
@@ -29,7 +28,6 @@ class BidSeeder extends Seeder
                 'status' => 'Under Review',
             ],
             [
-                'vendor_name' => 'XYZ Agro Ltd',
                 'buyer_name' => 'FreshMart',
                 'tender_id' => 'TNDR-2025-002',
                 'tender_title' => 'Supply of Rice (50 tons)',
@@ -43,7 +41,6 @@ class BidSeeder extends Seeder
                 'status' => 'Accepted',
             ],
             [
-                'vendor_name' => 'Greenfield Agro',
                 'buyer_name' => 'FoodCo',
                 'tender_id' => 'TNDR-2025-003',
                 'tender_title' => 'Vegetables for Supermarket Chain',
@@ -58,8 +55,7 @@ class BidSeeder extends Seeder
             ],
         ];
 
-        foreach($bids as $bid)
-        {
+        foreach ($bids as $bid) {
             Bid::create($bid);
         }
     }

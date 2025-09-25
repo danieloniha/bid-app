@@ -30,7 +30,7 @@ class BidController extends Controller
             'tender_title' => 'required|string',
             'buyer_name' => 'required|string',
             'tender_id' => 'required|string',
-            'category_id' => 'nullable|exists:categories,id',
+            'category_id' => 'required|exists:categories,id',
             'quantity' => 'required|integer|min:0',
             'unit_price' => 'required|integer|min:0',
             //'amount' => 'required|integer|min:0',
