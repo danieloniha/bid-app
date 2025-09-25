@@ -11,6 +11,7 @@ SETUP
 - Run migrations and seeding
   php artisan migrate
   php artisan db:seed
+  php artisan storage:link (for documents)
 
 - Run the application
   php artisan serve
