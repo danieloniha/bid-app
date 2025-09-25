@@ -27,7 +27,7 @@
                 <i class="fas fa-file-contract"></i>
                 Tenders
             </a>
-            <a href="#" class="nav-item active">
+            <a href="{{ route('bids') }}" class="nav-item active">
                 <i class="fas fa-gavel"></i>
                 Bids
             </a>
@@ -39,6 +39,13 @@
                 <h4>John Doe</h4>
                 <span>johndoe12@gmail.com</span>
             </div>
+        </div>
+
+        <div style="padding: 0 8px 20px;">
+            <a href="#" class="nav-item" style="margin: 0; color: rgba(255,255,255,0.8);">
+                <i class="fas fa-sign-out-alt"></i>
+                Log Out
+            </a>
         </div>
     </nav>
 
@@ -78,12 +85,18 @@
                             <label class="form-label">Buyer</label>
                             <input type="text" class="form-input" name="buyer_name" placeholder="Enter buyer name"
                                 value="{{ old('buyer_name') }}">
+                            @error('buyer_name')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Tender ID</label>
                             <input type="text" class="form-input" name="tender_id" value="TNDR-2025-004"
                                 placeholder="Enter tender ID" value="{{ old('tender_id') }}">
+                            @error('tender_id')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="form-group">
@@ -91,14 +104,21 @@
                             <select class="form-select" name="category_id">
                                 <option value="">Select Category</option>
                                 @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    <option value="{{ $category->id }}"
+                                        {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
                                 @endforeach
                             </select>
+                            @error('category_id')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Delivery Location</label>
-                            <select class="form-select" name="delivery_location" value="{{ old('delivery_location') }}">
+                            <select class="form-select" name="delivery_location"
+                                value="{{ old('delivery_location') }}">
                                 <option value="">Select Location</option>
                                 <option value="lagos">Lagos</option>
                                 <option value="abuja">Abuja</option>
@@ -106,6 +126,9 @@
                                 <option value="port-harcourt">Port Harcourt</option>
                                 <option value="ibadan">Ibadan</option>
                             </select>
+                            @error('delivery_date')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="form-group">
@@ -113,7 +136,7 @@
                             <div class="currency-input">
                                 <span class="currency-symbol">₦</span>
                                 <input type="number" class="form-input" name="unit_price" placeholder="2000"
-                                    min="0" step="0.01" value="{{ old('unit_price') }}">
+                                    min="0" step="0.01" value="{{ old('unit_price') }}" required>
                             </div>
                         </div>
 
@@ -125,6 +148,9 @@
                                 <option value="within-14-days">Within 14 days</option>
                                 <option value="within-30-days">Within 30 days</option>
                             </select>
+                            @error('delivery_date')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="form-group">
@@ -132,7 +158,7 @@
                             <div class="currency-input">
                                 <span class="currency-symbol">₦</span>
                                 <input type="number" class="form-input" name="quantity" placeholder="2000"
-                                    min="0" step="0.01" value="{{ old('quantity') }}">
+                                    min="0" step="0.01" value="{{ old('quantity') }}" required>
                             </div>
                         </div>
                     </div>
@@ -186,6 +212,48 @@
             </form>
         </div>
     </main>
+
+    @if (session('bid_success'))
+        <div id="bidSuccessModal" class="modal-overlay">
+            <div class="modal-box">
+                <div class="modal-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h4>{{ session('bid_success.title') }}</h4>
+                <p>
+                    {{ session('bid_success.message') }}
+                    You will be notified when the status changes or if the buyer requests clarification.
+                </p>
+                <a href="#" class="bid_status">
+                    View your bid status
+                </a>
+            </div>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const modal = document.getElementById('bidSuccessModal');
+
+                // Auto close after 5 seconds
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 5000);
+
+                // Close on overlay click
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            });
+        </script>
+    @endif
+
+
+
+    {{-- Overlay background --}}
+    {{-- <div class="modal-backdrop fade show"></div> --}}
+
+
 
     <script>
         const fileInput = document.getElementById('fileInput');

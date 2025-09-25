@@ -27,7 +27,7 @@
                 <i class="fas fa-file-contract"></i>
                 Tenders
             </a>
-            <a href="#" class="nav-item active">
+            <a href="{{ route('bids') }}" class="nav-item active">
                 <i class="fas fa-gavel"></i>
                 Bids
             </a>
@@ -39,6 +39,13 @@
                 <h4>John Doe</h4>
                 <span>johndoe12@gmail.com</span>
             </div>
+        </div>
+
+        <div style="padding: 0 8px 20px;">
+            <a href="#" class="nav-item" style="margin: 0; color: rgba(255,255,255,0.8);">
+                <i class="fas fa-sign-out-alt"></i>
+                Log Out
+            </a>
         </div>
     </nav>
 
@@ -70,8 +77,8 @@
         {{-- Filters --}}
         <div class="filters">
             <div class="search-box">
-                <input type="text" placeholder="Search the tender title and buyer's name...">
                 <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search the tender title and buyer's name...">
             </div>
             <select class="filter-dropdown">
                 <option>Status</option>
@@ -79,11 +86,11 @@
                 <option>Accepted</option>
                 <option>Rejected</option>
             </select>
-            <select class="filter-dropdown">
+            <select class="filter-dropdown" id="categoryFilter">
                 <option>Category</option>
-                <option>Grains</option>
-                <option>Vegetables</option>
-                <option>Fruits</option>
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @endforeach
             </select>
             <select class="filter-dropdown">
                 <option>Location</option>
@@ -100,7 +107,7 @@
 
         {{-- Table --}}
         <div class="table-container">
-            <table class="bids-table">
+            <table class="bids-table" id="bidsTable">
                 <thead>
                     <tr>
                         <th>Tender Title</th>
@@ -175,26 +182,26 @@
         });
 
         // Tab functionality for filtering bids
-document.querySelectorAll('.tab').forEach(tab => {
-    tab.addEventListener('click', function () {
-        // Reset active tab
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        this.classList.add('active');
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Reset active tab
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
 
-        const selectedStatus = this.textContent.trim().toLowerCase();
+                const selectedStatus = this.textContent.trim().toLowerCase();
 
-        // Show/hide rows based on status
-        document.querySelectorAll('tbody tr').forEach(row => {
-            const rowStatus = (row.getAttribute('data-status') || '').trim().toLowerCase();
+                // Show/hide rows based on status
+                document.querySelectorAll('tbody tr').forEach(row => {
+                    const rowStatus = (row.getAttribute('data-status') || '').trim().toLowerCase();
 
-            if (selectedStatus === 'all bids' || rowStatus === selectedStatus) {
-                row.style.display = ''; // show
-            } else {
-                row.style.display = 'none'; // hide
-            }
+                    if (selectedStatus === 'all bids' || rowStatus === selectedStatus) {
+                        row.style.display = ''; // show
+                    } else {
+                        row.style.display = 'none'; // hide
+                    }
+                });
+            });
         });
-    });
-});
 
 
 

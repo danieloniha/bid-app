@@ -17,8 +17,9 @@ class BidController extends Controller
 
     public function index()
     {
+        $categories = Category::all();
         $bids = Bid::with('category')->get();
-        return view('bid', compact('bids'));
+        return view('bid', compact('bids', 'categories'));
     }
 
     public function store(Request $request)
@@ -56,9 +57,11 @@ class BidController extends Controller
 
         $bid = Bid::create($validated);
 
-        return response()->json([
-            'message' => 'Bid created successfully',
-            'data' => $bid
-        ], 201);
+        return redirect()->back()->with('bid_success', [
+            'title' => 'Congratulations',
+            'message' => 'Your Bid for "' . $request->tender_title . '" has been successfully submitted.',
+            'bid_id' => $bid->id,
+            'tender_title' => $request->tender_title
+        ]);
     }
 }

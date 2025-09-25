@@ -187,7 +187,8 @@ body {
     background: #f8f9fa;
     border-bottom: 1px solid #e9ecef;
     display: flex;
-    gap: 20px;
+    justify-content: space-between;
+    gap: 10px;
     align-items: center;
 }
 
@@ -208,7 +209,7 @@ body {
 
 .search-box i {
     position: absolute;
-    right: 14px;
+    left: 14px;
     top: 50%;
     transform: translateY(-50%);
     color: #6c757d;
